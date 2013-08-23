@@ -43,24 +43,24 @@ var app = {
     },
 
     scan: function() {
-        var scanner = cordova.require("cordova/plugin/BarcodeScanner");
-        scanner.scan(
-            function (result) {
-                document.getElementById("precioReferencia").innerHTML = 0;
-                $('#formLibroNuevo')[0].reset();
-                if(result.text.toString().trim().length >=1){
-                    app.buscarLibro(result.text);
-                }else{
-                    $.mobile.changePage( '#newSolicitudPag', { transition: "slide"} );
-                }                
-            }, 
-            function (error) {
-                alert("Error al escanear el Libro: " + error);
-            }
-        );
-        // document.getElementById("precioReferencia").innerHTML = 0;
-        // $('#formLibroNuevo')[0].reset();
-        // app.buscarLibro(9789568410575);
+        // var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+        // scanner.scan(
+        //     function (result) {
+        //         document.getElementById("precioReferencia").innerHTML = 0;
+        //         $('#formLibroNuevo')[0].reset();
+        //         if(result.text.toString().trim().length >=1){
+        //             app.buscarLibro(result.text);
+        //         }else{
+        //             $.mobile.changePage( '#newSolicitudPag', { transition: "slide"} );
+        //         }                
+        //     }, 
+        //     function (error) {
+        //         alert("Error al escanear el Libro: " + error);
+        //     }
+        // );
+        document.getElementById("precioReferencia").innerHTML = 0;
+        $('#formLibroNuevo')[0].reset();
+        app.buscarLibro(9789568410575);
     },
 
     logear: function(){
@@ -181,11 +181,11 @@ var app = {
     },
 
     actualizaTotal: function(cantidad, idElemento){
-        //var valor = $('#precioReferencia').val();
-        var valor = document.getElementById(idElemento).value;
+        var valor = $('#precioReferencia').val();
+        //var valor = document.getElementById(idElemento).value;
         var total = parseInt(valor)*parseInt(cantidad.value);
         total = app.formatValores(total);
-        $('#'+idElemento).text(total);
+        $('#precioReferencia').text(total);
     },
 
     irEvento: function(eId){
