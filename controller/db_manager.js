@@ -31,7 +31,7 @@ var baseDatos = {
         console.log('Valor: '+(valor_referencia*1)*libro.cantidad);
         var utilizado = (valor_referencia*1)*libro.cantidad;
         tx.executeSql('insert into Solicitudes_por_enviar (isbn, nombre_libro, valor_referencia, cantidad, autor, idPresupuesto, idUsuario) values ('+libro.isbn+', "'+libro.nombre_libro+'", '+valor_referencia+', '+libro.cantidad+', "'+libro.autor+'", '+idPresupuesto+','+window.usuario.id+')');
-        tx.executeSql('update Presupuestos set utilizado = (select utilizado from Presupuestos where idPresupuesto='+idPresupuesto+' and idUsuario='+window.usuariuo.id+')+'+utilizado+', disponiblePresupuesto = (select disponiblePresupuesto from Presupuestos where idPresupuesto='+idPresupuesto+' and idUsuario='+window.usuariuo.id+')-'+utilizado+' WHERE idPresupuesto = '+idPresupuesto' and idUsuario='+window.usuariuo.id);
+        tx.executeSql('update Presupuestos set utilizado = (select utilizado from Presupuestos where idPresupuesto='+idPresupuesto+' and idUsuario='+window.usuariuo.id+')+'+utilizado+', disponiblePresupuesto = (select disponiblePresupuesto from Presupuestos where idPresupuesto='+idPresupuesto+' and idUsuario='+window.usuariuo.id+')-'+utilizado+' WHERE idPresupuesto = '+idPresupuesto+' and idUsuario='+window.usuariuo.id);
         baseDatos.obtenerPresupuestoId(tx, window.usuario);
     },
 
