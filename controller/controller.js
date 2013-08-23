@@ -43,24 +43,29 @@ var app = {
     },
 
     scan: function() {
-        var scanner = cordova.require("cordova/plugin/BarcodeScanner");
-        scanner.scan(
-            function (result) {
-                document.getElementById("precioReferencia").innerHTML = 0;
-                $('#formLibroNuevo')[0].reset();
-                if(result.text.toString().trim().length >=1){
-                    app.buscarLibro(result.text);
-                }else{
-                    $.mobile.changePage( '#newSolicitudPag', { transition: "slide"} );
-                }                
-            }, 
-            function (error) {
-                alert("Error al escanear el Libro: " + error);
-            }
-        );
-        // document.getElementById("precioReferencia").innerHTML = 0;
-        // $('#formLibroNuevo')[0].reset();
-        // app.buscarLibro(9789568410575);
+        if(window.usuario.evento.eventoActivo){
+            var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+            scanner.scan(
+                function (result) {
+                    document.getElementById("precioReferencia").innerHTML = 0;
+                    $('#formLibroNuevo')[0].reset();
+                    if(result.text.toString().trim().length >=1){
+                        app.buscarLibro(result.text);
+                    }else{
+                        $.mobile.changePage( '#newSolicitudPag', { transition: "slide"} );
+                    }                
+                }, 
+                function (error) {
+                    alert("Error al escanear el Libro: " + error);
+                }
+            );
+            // document.getElementById("precioReferencia").innerHTML = 0;
+            // $('#formLibroNuevo')[0].reset();
+            // app.buscarLibro(9789568410575);
+        }else{
+            alert('Usted no tiene evento asociado.');
+        }
+        
     },
 
     logear: function(){
@@ -123,7 +128,7 @@ var app = {
     construirResumen: function(p){
         $('p').remove('.resumen');
         var $children = $('<p class="resumen"></p>');
-        if($.parseJSON(p.eventoActivo)){
+        if(window.usuario.evento.eventoActivo){
             $children.html('<b>'+p.nombrePresupuesto+'</b><br />Evento Valido Hasta: '+p.fechaValidoHasta.toString()+' <br />Disponible: '+app.formatValores(p.disponiblePresupuesto)+' / Utilizado: '+app.formatValores(p.utilizado)+' ');
         }else{
             $children.html('<b>Usted no tiene evento disponible</b> ');
@@ -139,14 +144,19 @@ var app = {
 
     obtenerSolicitudes: function(){
         //var pag = '#'+this.id+'Pag';
-        var pag = '#solicitudesPorEnviarPag';
-        var idEvento = window.usuario.evento.id;
-        window.db.transaction(function(tx) {
-            baseDatos.obtenerSolicitudesPorEnviar(tx, window.usuario);
-            baseDatos.obtenerPresupuestoId(tx, window.usuario);
-        }, baseDatos.errorTablaSolicitudes, function(tx){
-            //$.mobile.changePage(pag,{transition: "slide"});
-        } );
+        if(window.usuario.evento.eventoActivo){
+            var pag = '#solicitudesPorEnviarPag';
+            var idEvento = window.usuario.evento.id;
+            window.db.transaction(function(tx) {
+                baseDatos.obtenerSolicitudesPorEnviar(tx, window.usuario);
+                baseDatos.obtenerPresupuestoId(tx, window.usuario);
+            }, baseDatos.errorTablaSolicitudes, function(tx){
+                //$.mobile.changePage(pag,{transition: "slide"});
+            });
+        }else{
+            alert('Usted no tiene evento asociado.');
+        }
+        
     },
 
     obtenerSolicitudesEnviadas: function(){

@@ -78,21 +78,29 @@ var baseDatos = {
     },
 
     verificarPresupuesto: function(tx, presupuesto, idUsuario){
-    	tx.executeSql('select * from Presupuestos where idPresupuesto='+presupuesto.id+' and idUsuario='+idUsuario, [], function(tx, results){
-    		if(results.rows.length == 0){
-    			console.log('agregado');   			
-    			baseDatos.agregarPresupuesto(tx, presupuesto, idUsuario);
+        tx.executeSql('select * from Presupuestos where idPresupuesto='+presupuesto.id+' and idUsuario='+idUsuario, [], function(tx, results){
+            if(results.rows.length == 0){
+                console.log('agregado');            
+                baseDatos.agregarPresupuesto(tx, presupuesto, idUsuario);
                 app.construirResumen(presupuesto);
-    		}else{
+            }else{
                 var len = results.rows.length;
-    			console.log('ya existe');
+                console.log('ya existe');
                 for (var i=0; i<len; i++){
                     var r = results.rows.item(i);
+                    if(window.usuario.evento.eventoActivo != $.parseJSON(r.eventoActivo)){
+                        baseDatos.activarDesactivarEvento(tx, window.usuario.evento.eventoActivo);
+                        //r.eventoActivo = window.usuario.evento.eventoActivo.toString();
+                    }
                     app.construirResumen(r);
                 }                
-    			//alert('el libro ya se encuentra agregado');
-    		}
-    	}, baseDatos.errorGuardar);
+                //alert('el libro ya se encuentra agregado');
+            }
+        }, baseDatos.errorGuardar);
+    },
+
+    activarDesactivarEvento: function(tx, isActivado){
+        tx.executeSql('update Presupuestos set eventoActivo ="'+isActivado+'" WHERE idPresupuesto = '+window.usuario.evento.id+' and idUsuario= '+window.usuario.id+';');
     },
 
     // obtenerPresupuesto: function(tx){
