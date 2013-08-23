@@ -314,7 +314,7 @@ var app = {
             librosEliminar[i] = b.id.split('-')[1];
             i++;
         });
-        if(libros.length >= 1){
+        if(librosEliminar.length >= 1){
             window.db.transaction(function(tx){
                baseDatos.borrarLibro(tx, librosEliminar, window.usuario);
             }, baseDatos.errorBuscarLibroEnvio, function(){
