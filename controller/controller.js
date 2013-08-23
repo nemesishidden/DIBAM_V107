@@ -383,6 +383,7 @@ var app = {
             error : function (){ document.title='error'; }, 
             success: function (data) {                
                 if(data.success){
+                    alert('Su solicitud fue enviada con exito.')
                     $.mobile.changePage( '#inicio', {transition: "slide"});
                 }else{
                     alert(data.model.error+'.');
@@ -444,8 +445,7 @@ var app = {
         }, function(tx){
             console.log('error sincronizaPresupuesto');
         }, function(tx){
-            console.log('success sincronizaPresupuesto');
-            
+            console.log('success sincronizaPresupuesto');            
         });
     }
 };
