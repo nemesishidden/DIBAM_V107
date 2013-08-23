@@ -52,7 +52,7 @@ var app = {
                     if(result.text.toString().trim().length >=1){
                         app.buscarLibro(result.text);
                     }else{
-                        $.mobile.changePage( '#newSolicitudPag', { transition: "slide"} );
+                        $.mobile.changePage( '#newSolicitudPag', { transition: "slide"});
                     }                
                 }, 
                 function (error) {
