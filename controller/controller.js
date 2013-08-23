@@ -43,24 +43,24 @@ var app = {
     },
 
     scan: function() {
-        var scanner = cordova.require("cordova/plugin/BarcodeScanner");
-        scanner.scan(
-            function (result) {
-                document.getElementById("precioReferencia").innerHTML = 0;
-                $('#formLibroNuevo')[0].reset();
-                if(result.text.toString().trim().length >=1){
-                    app.buscarLibro(result.text);
-                }else{
-                    $.mobile.changePage( '#newSolicitudPag', { transition: "slide"} );
-                }                
-            }, 
-            function (error) {
-                alert("Error al escanear el Libro: " + error);
-            }
-        );
-        // document.getElementById("precioReferencia").innerHTML = 0;
-        // $('#formLibroNuevo')[0].reset();
-        // app.buscarLibro(9789568410575);
+        // var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+        // scanner.scan(
+        //     function (result) {
+        //         document.getElementById("precioReferencia").innerHTML = 0;
+        //         $('#formLibroNuevo')[0].reset();
+        //         if(result.text.toString().trim().length >=1){
+        //             app.buscarLibro(result.text);
+        //         }else{
+        //             $.mobile.changePage( '#newSolicitudPag', { transition: "slide"} );
+        //         }                
+        //     }, 
+        //     function (error) {
+        //         alert("Error al escanear el Libro: " + error);
+        //     }
+        // );
+        document.getElementById("precioReferencia").innerHTML = 0;
+        $('#formLibroNuevo')[0].reset();
+        app.buscarLibro(9789568410575);
     },
 
     logear: function(){
@@ -180,12 +180,12 @@ var app = {
         //$.mobile.changePage( pag, { transition: "slide"} );
     },
 
-    actualizaTotal: function(cantidad, idElemento){
-        var valor = $('#precioReferencia').val();
+    actualizaTotal: function(cantidad, idElemento, idTotal){
+        var valor = $('#'+idElemento).val();
         //var valor = document.getElementById(idElemento).value;
         var total = parseInt(valor)*parseInt(cantidad.value);
         total = app.formatValores(total);
-        $('#precioReferencia').text(total);
+        $('#'+idTotal).text(total);
     },
 
     irEvento: function(eId){
@@ -303,9 +303,17 @@ var app = {
         window.db.transaction(function(tx){
            baseDatos.borrarLibro(tx, librosEliminar, window.usuario);
         }, baseDatos.errorBuscarLibroEnvio, function(){
-            alert('Libros liminados con exito');
-            var pag = '#inicio';
-            $.mobile.changePage( pag, { transition: "slide"});
+            window.db.transaction(function(tx) {
+                baseDatos.updatePresupuestoFinal(tx, window.usuario);
+            }, function(tx){
+                console.log('error al update del presupuesto');
+            }, function(tx){
+                console.log('presupuesto actualizado');
+                alert('Libros liminados con exito');
+                var pag = '#inicio';
+                $.mobile.changePage( pag, { transition: "slide"});
+            });
+            
         });
     },
 

@@ -91,7 +91,7 @@
                     <input type="number" name="precioReferencia" id="precioReferencia" value="" placeholder="Valor"/><br />
                     
                     <label for="slider-mini">Cantidad de Libros:</label>
-                    <input type="range" name="slider-mini" id="cantidad" value="0" min="0" max="200" onchange="app.actualizaTotal(this, 'totalPresupuesto')" data-highlight="true" data-mini="true" /><br />
+                    <input type="range" name="slider-mini" id="cantidad" value="0" min="0" max="200" onchange="app.actualizaTotal(this, 'precioReferencia', 'totalPresupuesto')" data-highlight="true" data-mini="true" /><br />
                                        
                     <label for="basic" style="float:right;">Total: <span id="totalPresupuesto"></span></label><br /><br />
                                             
@@ -222,7 +222,7 @@
                         <input type="number" name="precioReferenciaE" id="precioReferenciaE" value="" placeholder="Valor"/><br />
                         
                         <label for="slider-mini">Cantidad de Libros:</label>
-                        <input type="range" name="slider-mini" id="cantidadE" value="0" min="0" max="200" onchange="app.actualizaTotal(this, 'totalPresupuestoE')" data-highlight="true" data-mini="true" /><br />
+                        <input type="range" name="slider-mini" id="cantidadE" value="0" min="0" max="200" onchange="app.actualizaTotal(this, 'precioReferenciaE', 'totalPresupuestoE')" data-highlight="true" data-mini="true" /><br />
                                            
                         <label for="basic" style="float:right;">Total: <span id="totalPresupuestoE"></span></label><br /><br />
                         
@@ -250,9 +250,9 @@
             <p id="mensajeError"><p>
         </div>
 
-       <!-- <script src="lib/cordova.js"></script>  -->
-        <script src="cordova.js"></script> 
-        <script src="barcodescanner.js"></script>
+        <script src="lib/cordova.js"></script> 
+        <!-- <script src="cordova.js"></script> 
+        <script src="barcodescanner.js"></script> -->
         <!--<script type="text/javascript" src="childbrowser.js"></script>-->
         <script type="text/javascript" src="controller/controller.js"></script>
         <script type="text/javascript" src="controller/db_manager.js"></script>
