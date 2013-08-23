@@ -314,22 +314,25 @@ var app = {
             librosEliminar[i] = b.id.split('-')[1];
             i++;
         });
-
-        window.db.transaction(function(tx){
-           baseDatos.borrarLibro(tx, librosEliminar, window.usuario);
-        }, baseDatos.errorBuscarLibroEnvio, function(){
-            window.db.transaction(function(tx) {
-                baseDatos.updatePresupuestoFinal(tx, window.usuario);
-            }, function(tx){
-                console.log('error al update del presupuesto');
-            }, function(tx){
-                console.log('presupuesto actualizado');
-                alert('Libros liminados con exito');
-                var pag = '#inicio';
-                $.mobile.changePage( pag, { transition: "slide"});
+        if(libros.length >= 1){
+            window.db.transaction(function(tx){
+               baseDatos.borrarLibro(tx, librosEliminar, window.usuario);
+            }, baseDatos.errorBuscarLibroEnvio, function(){
+                window.db.transaction(function(tx) {
+                    baseDatos.updatePresupuestoFinal(tx, window.usuario);
+                }, function(tx){
+                    console.log('error al update del presupuesto');
+                }, function(tx){
+                    console.log('presupuesto actualizado');
+                    alert('Libros liminados con exito');
+                    var pag = '#inicio';
+                    $.mobile.changePage( pag, { transition: "slide"});
+                });                
             });
-            
-        });
+        }else{
+            alert('Debe seleccionar al menos un libro para eliminar');
+        }
+        
     },
 
     enviarSolicitud: function(){
@@ -361,7 +364,12 @@ var app = {
                     }
                 });
             });
-            app.enviarDibam(libros);
+            if(libros.length >= 1){
+                app.enviarDibam(libros);
+            }else{
+                alert('Debe seleccionar al menos un libro para enviar');
+            }
+            
         });
     },
 
