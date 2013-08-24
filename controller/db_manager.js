@@ -59,8 +59,6 @@ var baseDatos = {
                     valorTotal = valorTotal+(r.valor_referencia*r.cantidad);
                     //app.construirResumen(r);
                 }
-            }else{
-                alert('error al consultar');
             }
             app.actualizaPresupuesto(valorTotal);
         }, baseDatos.errorGuardar);
