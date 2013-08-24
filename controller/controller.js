@@ -44,24 +44,24 @@ var app = {
 
     scan: function() {
         if(window.usuario.evento.eventoActivo){
-            // var scanner = cordova.require("cordova/plugin/BarcodeScanner");
-            // scanner.scan(
-            //     function (result) {
-            //         document.getElementById("precioReferencia").innerHTML = 0;
-            //         $('#formLibroNuevo')[0].reset();
-            //         if(result.text.toString().trim().length >=1){
-            //             app.buscarLibro(result.text);
-            //         }else{
-            //             $.mobile.changePage( '#newSolicitudPag', { transition: "slide"});
-            //         }                
-            //     }, 
-            //     function (error) {
-            //         alert("Error al escanear el Libro: " + error);
-            //     }
-            // );
-            document.getElementById("precioReferencia").innerHTML = 0;
-            $('#formLibroNuevo')[0].reset();
-            app.buscarLibro(9789568410575);
+            var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+            scanner.scan(
+                function (result) {
+                    document.getElementById("precioReferencia").innerHTML = 0;
+                    $('#formLibroNuevo')[0].reset();
+                    if(result.text.toString().trim().length >=1){
+                        app.buscarLibro(result.text);
+                    }else{
+                        $.mobile.changePage( '#newSolicitudPag', { transition: "slide"});
+                    }                
+                }, 
+                function (error) {
+                    alert("Error al escanear el Libro: " + error);
+                }
+            );
+            // document.getElementById("precioReferencia").innerHTML = 0;
+            // $('#formLibroNuevo')[0].reset();
+            // app.buscarLibro(9789568410575);
         }else{
             alert('Usted no tiene evento asociado.');
         }
@@ -398,8 +398,7 @@ var app = {
                     alert(data.model.error);
                     $.mobile.changePage( '#inicio', {transition: "slide"});
                 }
-            }                
-            
+            }
         });
         // window.db.transaction(function(tx) {
         //     baseDatos.borrarLibro(tx, window.usuario);
